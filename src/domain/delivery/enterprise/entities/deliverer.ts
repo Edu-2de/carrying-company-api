@@ -1,14 +1,17 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import type { Coordinate } from './value-objects/coordinate'
+import type { Cpf } from './value-objects/cpf'
 
 export interface DelivererProps {
   name: string
-  cpf: string
+  cpf: Cpf
   email: string
   password: string
   phoneNumber: string
   createdAt: Date
   updatedAt?: Date
+  location?: Coordinate
 }
 
 export class Deliverer extends Entity<DelivererProps> {
@@ -38,6 +41,10 @@ export class Deliverer extends Entity<DelivererProps> {
 
   get updatedAt() {
     return this.props.updatedAt
+  }
+
+  get location() {
+    return this.props.location
   }
 
   static create(props: DelivererProps, id?: UniqueEntityId) {

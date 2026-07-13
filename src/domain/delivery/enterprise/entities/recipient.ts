@@ -1,13 +1,13 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import type { Coordinate } from './value-objects/coordinate'
+import type { Cpf } from './value-objects/cpf'
 
 export interface RecipientProps {
   name: string
-  cpf: string
-  email: string
-  password: string
+  cpf: Cpf
   phoneNumber: string
-  address: string
+  location: Coordinate
   createdAt: Date
   updatedAt: Date
 }
@@ -21,20 +21,12 @@ export class Recipient extends Entity<RecipientProps> {
     return this.props.cpf
   }
 
-  get email() {
-    return this.props.email
-  }
-
-  get password() {
-    return this.props.password
-  }
-
   get phoneNumber() {
     return this.props.phoneNumber
   }
 
-  get address() {
-    return this.props.address
+  get location() {
+    return this.props.location
   }
 
   get createdAt() {
