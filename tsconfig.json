@@ -12,7 +12,8 @@
     "exactOptionalPropertyTypes": true,
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@domain/*": ["./src/domain/*"]
     },
 
     "strict": true,
