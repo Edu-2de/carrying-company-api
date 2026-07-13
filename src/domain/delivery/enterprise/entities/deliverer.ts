@@ -9,7 +9,7 @@ export interface DelivererProps {
   email: string
   password: string
   phoneNumber: string
-  createdAt: Date
+  createdAt?: Date
   updatedAt?: Date
   location?: Coordinate
 }
@@ -51,6 +51,7 @@ export class Deliverer extends Entity<DelivererProps> {
     const deliverer = new Deliverer(
       {
         ...props,
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

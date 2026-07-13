@@ -1,18 +1,18 @@
 export class Coordinate {
-  private readonly latitude: number
-  private readonly longitude: number
+  private readonly _latitude: number
+  private readonly _longitude: number
 
   private constructor(latitude: number, longitude: number) {
-    this.latitude = latitude
-    this.longitude = longitude
+    this._latitude = latitude
+    this._longitude = longitude
   }
 
-  get getLatitude() {
-    return this.latitude
+  get latitude() {
+    return this._latitude
   }
 
-  get getLongitude() {
-    return this.longitude
+  get longitude() {
+    return this._longitude
   }
 
   static create(latitude: number, longitude: number): Coordinate {

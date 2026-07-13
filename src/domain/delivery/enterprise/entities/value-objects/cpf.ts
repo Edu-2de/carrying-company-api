@@ -1,16 +1,16 @@
 export class Cpf {
-  private readonly value: string
+  private readonly _value: string
 
   private constructor(value: string) {
-    this.value = value
+    this._value = value
   }
 
-  get getValue() {
-    return this.value
+  get value() {
+    return this._value
   }
 
   get format() {
-    return this.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+    return this._value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
   }
 
   static create(cpf: string): Cpf {

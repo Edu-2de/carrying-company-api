@@ -8,8 +8,8 @@ export interface ManagerProps {
   email: string
   password: string
   phoneNumber: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export class Manager extends Entity<ManagerProps> {
@@ -45,6 +45,7 @@ export class Manager extends Entity<ManagerProps> {
     const manager = new Manager(
       {
         ...props,
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )

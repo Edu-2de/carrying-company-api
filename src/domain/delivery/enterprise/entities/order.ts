@@ -4,7 +4,7 @@ import type { Coordinate } from './value-objects/coordinate'
 
 enum OrderStatus {
   orderProcessed = 'Order Processed',
-  inTrasit = 'In Transit',
+  inTransit = 'In Transit',
   outForDelivery = 'Out for Delivery',
   delivered = 'Delivered',
   returned = 'Returned',
@@ -13,9 +13,9 @@ enum OrderStatus {
 export interface OrderProps {
   title: string
   location: Coordinate
-  status: OrderStatus
+  status?: OrderStatus
   fileName?: string
-  createdAt: Date
+  createdAt?: Date
   updatedAt?: Date
   expectedDate: Date
   recipientId: UniqueEntityId
@@ -55,10 +55,27 @@ export class Order extends Entity<OrderProps> {
     return this.props.delivererId
   }
 
+  pickUp(deliverIid: UniqueEntityId) {
+    this.props.delivererId = deliverIid
+    this.props.status = OrderStatus.inTransit
+    this.touch()
+  }
+
+  deliver() {
+    this.props.status = OrderStatus.delivered
+    this.touch()
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
   static create(props: OrderProps, id?: UniqueEntityId) {
     const order = new Order(
       {
         ...props,
+        createdAt: props.createdAt ?? new Date(),
+        status: props.status ?? OrderStatus.orderProcessed,
       },
       id,
     )

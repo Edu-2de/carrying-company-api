@@ -8,8 +8,8 @@ export interface RecipientProps {
   cpf: Cpf
   phoneNumber: string
   location: Coordinate
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export class Recipient extends Entity<RecipientProps> {
@@ -41,6 +41,7 @@ export class Recipient extends Entity<RecipientProps> {
     const recipient = new Recipient(
       {
         ...props,
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )
