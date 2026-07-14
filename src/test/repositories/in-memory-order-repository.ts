@@ -1,14 +1,10 @@
-import { getDistanceBetweenCoordinates } from '@/test/utils/get-distance-between-coordinates'
 import type { OrderRepository } from '@/domain/delivery/application/repositories/order-repository'
 import type { Order } from '@/domain/delivery/enterprise/entities/order'
 import type { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
+import { getDistanceBetweenCoordinates } from '@/test/utils/get-distance-between-coordinates'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
-
-  async create(order: Order) {
-    this.items.push(order)
-  }
 
   async fetchNear(location: Coordinate) {
     return this.items.filter((item) => {
@@ -21,5 +17,22 @@ export class InMemoryOrderRepository implements OrderRepository {
       )
       return distance < 10
     })
+  }
+
+  async findById(id: string) {
+    const order = this.items.find((item) => item.id.toString() === id)
+    if (!order) return null
+    return order
+  }
+
+  async save(order: Order) {
+    const orderIndex = this.items.findIndex((item) => item.id === order.id)
+    if (orderIndex > -1) {
+      this.items[orderIndex] = order
+    }
+  }
+
+  async create(order: Order) {
+    this.items.push(order)
   }
 }

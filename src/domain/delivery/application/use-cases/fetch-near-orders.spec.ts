@@ -2,8 +2,8 @@ import { makeOrder } from '@/test/factories/make-order'
 import { makeRecipient } from '@/test/factories/make-recipient'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
+import { Coordinate } from '@domain/delivery/enterprise/entities/value-objects/coordinate'
 import { describe, expect, it } from 'vitest'
-import { Coordinate } from '../../enterprise/entities/value-objects/coordinate'
 import { FetchNearOrdersUseCase } from './fetch-near-orders'
 
 let orderRepository: InMemoryOrderRepository

@@ -55,8 +55,11 @@ export class Order extends Entity<OrderProps> {
     return this.props.delivererId
   }
 
-  pickUp(deliverId: UniqueEntityId) {
-    this.props.delivererId = deliverId
+  pickUp(delivererId: UniqueEntityId) {
+    if (this.props.status !== OrderStatus.orderProcessed) {
+      throw new Error('Order is not available for pick up.')
+    }
+    this.props.delivererId = delivererId
     this.props.status = OrderStatus.inTransit
     this.touch()
   }
