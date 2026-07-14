@@ -1,6 +1,9 @@
 import { left, right, type Either } from '@/core/either'
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { OrderDeliveredEvent } from '../events/order-delivered-event'
+import { OrderPickedEvent } from '../events/order-picked-event'
+import { OrderReturnedEvent } from '../events/order-returned-event'
 import { DelivererNotAuthorizedError } from './errors/deliverer-not-authorized-error'
 import { OrderNotAvailableError } from './errors/order-not-available-error'
 import type { Coordinate } from './value-objects/coordinate'
@@ -25,7 +28,7 @@ export interface OrderProps {
   delivererId?: UniqueEntityId
 }
 
-export class Order extends Entity<OrderProps> {
+export class Order extends AggregateRoot<OrderProps> {
   get title() {
     return this.props.title
   }
@@ -65,6 +68,7 @@ export class Order extends Entity<OrderProps> {
     this.props.delivererId = delivererId
     this.props.status = OrderStatus.inTransit
     this.touch()
+    this.addDomainEvent(new OrderPickedEvent(this))
 
     return right(null)
   }
@@ -83,6 +87,7 @@ export class Order extends Entity<OrderProps> {
     this.props.status = OrderStatus.delivered
     this.props.fileName = fileName
     this.touch()
+    this.addDomainEvent(new OrderDeliveredEvent(this))
 
     return right(null)
   }
@@ -100,6 +105,7 @@ export class Order extends Entity<OrderProps> {
 
     this.props.status = OrderStatus.returned
     this.touch()
+    this.addDomainEvent(new OrderReturnedEvent(this))
 
     return right(null)
   }
