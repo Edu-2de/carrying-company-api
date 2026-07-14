@@ -6,6 +6,7 @@ import { DelivererDoesNotExistsError } from './errors/deliverer-does-not-exists-
 
 export interface FetchDelivererOrdersUseCaseRequest {
   delivererId: string
+  page: number
 }
 
 export type FetchDelivererOrdersUseCaseResponse = Either<
@@ -21,11 +22,14 @@ export class FetchDelivererOrdersUseCase {
 
   async execute({
     delivererId,
+    page,
   }: FetchDelivererOrdersUseCaseRequest): Promise<FetchDelivererOrdersUseCaseResponse> {
     const delivererExists = await this.delivererRepository.findById(delivererId)
     if (!delivererExists) return left(new DelivererDoesNotExistsError())
 
-    const orders = await this.orderRepository.findByDeliverer(delivererId)
+    const orders = await this.orderRepository.fetchByDeliverer(delivererId, {
+      page,
+    })
 
     return right({ orders })
   }

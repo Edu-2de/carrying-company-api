@@ -1,3 +1,4 @@
+import type { PaginationParams } from '@/core/repositories/pagination-params'
 import type { OrderRepository } from '@/domain/delivery/application/repositories/order-repository'
 import type { Order } from '@/domain/delivery/enterprise/entities/order'
 import type { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
@@ -6,17 +7,19 @@ import { getDistanceBetweenCoordinates } from '@/test/utils/get-distance-between
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
 
-  async fetchNear(location: Coordinate) {
-    return this.items.filter((item) => {
-      const distance = getDistanceBetweenCoordinates(
-        { latitude: location.latitude, longitude: location.longitude },
-        {
-          latitude: item.location.latitude,
-          longitude: item.location.longitude,
-        },
-      )
-      return distance < 10
-    })
+  async fetchNear(location: Coordinate, { page }: PaginationParams) {
+    return this.items
+      .filter((item) => {
+        const distance = getDistanceBetweenCoordinates(
+          { latitude: location.latitude, longitude: location.longitude },
+          {
+            latitude: item.location.latitude,
+            longitude: item.location.longitude,
+          },
+        )
+        return distance < 10
+      })
+      .slice((page - 1) * 20, page * 20)
   }
 
   async findById(id: string) {
@@ -25,10 +28,10 @@ export class InMemoryOrderRepository implements OrderRepository {
     return order
   }
 
-  async findByDeliverer(delivererId: string) {
-    const orders = this.items.filter(
-      (item) => item.delivererId?.toString() === delivererId,
-    )
+  async fetchByDeliverer(delivererId: string, { page }: PaginationParams) {
+    const orders = this.items
+      .filter((item) => item.delivererId?.toString() === delivererId)
+      .slice((page - 1) * 20, page * 20)
     return orders
   }
 

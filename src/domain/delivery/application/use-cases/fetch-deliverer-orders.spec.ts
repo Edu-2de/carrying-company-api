@@ -41,6 +41,7 @@ describe('Fetch Deliverer Orders Use Case', () => {
 
     const result = await sut.execute({
       delivererId: deliverer.id.toString(),
+      page: 1,
     })
 
     expect(result.isRight()).toBe(true)

@@ -32,7 +32,7 @@ describe('Return Order Use Case', () => {
     const order = makeOrder({
       delivererId: deliverer.id,
       recipientId: recipient.id,
-      status: OrderStatus.delivered,
+      status: OrderStatus.inTransit,
     })
     orderRepository.create(order)
 
@@ -58,7 +58,7 @@ describe('Return Order Use Case', () => {
     const order = makeOrder({
       delivererId: deliverer.id,
       recipientId: recipient.id,
-      status: OrderStatus.delivered,
+      status: OrderStatus.inTransit,
     })
     orderRepository.create(order)
 

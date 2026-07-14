@@ -90,7 +90,7 @@ export class Order extends Entity<OrderProps> {
   return(
     delivererId: UniqueEntityId,
   ): Either<OrderNotAvailableError | DelivererNotAuthorizedError, null> {
-    if (this.props.status !== OrderStatus.delivered) {
+    if (this.props.status !== OrderStatus.inTransit) {
       return left(new OrderNotAvailableError())
     }
 
