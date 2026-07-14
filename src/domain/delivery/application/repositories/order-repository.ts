@@ -4,6 +4,7 @@ import type { Coordinate } from '@domain/delivery/enterprise/entities/value-obje
 export interface OrderRepository {
   fetchNear(location: Coordinate): Promise<Order[]>
   findById(id: string): Promise<Order | null>
+  findByDeliverer(delivererId: string): Promise<Order[]>
   save(data: Order): Promise<void>
   create(data: Order): Promise<void>
 }

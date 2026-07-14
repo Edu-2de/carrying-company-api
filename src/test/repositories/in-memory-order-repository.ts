@@ -25,6 +25,13 @@ export class InMemoryOrderRepository implements OrderRepository {
     return order
   }
 
+  async findByDeliverer(delivererId: string) {
+    const orders = this.items.filter(
+      (item) => item.delivererId?.toString() === delivererId,
+    )
+    return orders
+  }
+
   async save(order: Order) {
     const orderIndex = this.items.findIndex((item) => item.id === order.id)
     if (orderIndex > -1) {

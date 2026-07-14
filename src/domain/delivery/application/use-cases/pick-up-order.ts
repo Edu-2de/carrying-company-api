@@ -1,4 +1,5 @@
 import { left, right, type Either } from '@/core/either'
+import type { OrderNotAvailableError } from '../../enterprise/entities/errors/order-not-available-error'
 import type { DelivererRepository } from '../repositories/deliverer-repository'
 import type { OrderRepository } from '../repositories/order-repository'
 import { DelivererDoesNotExistsError } from './errors/deliverer-does-not-exists-error'
@@ -10,7 +11,9 @@ export interface PickUpOrderUseCaseRequest {
 }
 
 export type PickUpOrderUseCaseResponse = Either<
-  OrderDoesNotExistsError | DelivererDoesNotExistsError,
+  | OrderDoesNotExistsError
+  | DelivererDoesNotExistsError
+  | OrderNotAvailableError,
   {}
 >
 

@@ -87,6 +87,23 @@ export class Order extends Entity<OrderProps> {
     return right(null)
   }
 
+  return(
+    delivererId: UniqueEntityId,
+  ): Either<OrderNotAvailableError | DelivererNotAuthorizedError, null> {
+    if (this.props.status !== OrderStatus.delivered) {
+      return left(new OrderNotAvailableError())
+    }
+
+    if (this.props.delivererId?.toString() !== delivererId.toString()) {
+      return left(new DelivererNotAuthorizedError())
+    }
+
+    this.props.status = OrderStatus.returned
+    this.touch()
+
+    return right(null)
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
