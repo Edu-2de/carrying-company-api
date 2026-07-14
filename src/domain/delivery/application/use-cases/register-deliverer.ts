@@ -2,6 +2,7 @@ import { left, right, type Either } from '@/core/either'
 import { Deliverer } from '@domain/delivery/enterprise/entities/deliverer'
 import { Coordinate } from '@domain/delivery/enterprise/entities/value-objects/coordinate'
 import { Cpf } from '@domain/delivery/enterprise/entities/value-objects/cpf'
+import type { HashGenerator } from '../cryptography/hash-generator'
 import type { DelivererRepository } from '../repositories/deliverer-repository'
 import { CpfAlreadyExistsError } from './errors/cpf-already-exists-error'
 import { EmailAlreadyExistsError } from './errors/email-already-exists-error'
@@ -22,7 +23,10 @@ type RegisterDelivererUseCaseResponse = Either<
 >
 
 export class RegisterDelivererUseCase {
-  constructor(private delivererRepository: DelivererRepository) {}
+  constructor(
+    private delivererRepository: DelivererRepository,
+    private hashGenerator: HashGenerator,
+  ) {}
 
   async execute({
     name,
@@ -43,11 +47,13 @@ export class RegisterDelivererUseCase {
 
     const locationToDomain = Coordinate.create(latitude, longitude)
 
+    const passwordHash = await this.hashGenerator.hash(password)
+
     const deliverer = Deliverer.create({
       name,
       cpf: cpfToDomain,
       email,
-      password,
+      password: passwordHash,
       phoneNumber,
       location: locationToDomain,
     })

@@ -13,7 +13,9 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@faker-js/faker": "^10.5.0",
     "@types/node": "^26.1.1",
+    "bcryptjs": "^3.0.3",
     "typescript": "^7.0.2",
     "unplugin-swc": "^1.5.9"
   },
