@@ -11,9 +11,9 @@ export interface RegisterDelivererUseCaseRequest {
   cpf: string
   email: string
   password: string
-  phoneNumber: string
   latitude: number
   longitude: number
+  phoneNumber: string
 }
 
 type RegisterDelivererUseCaseResponse = Either<

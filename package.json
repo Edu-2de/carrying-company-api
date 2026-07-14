@@ -4,14 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/server.ts",
+    "start": "node build/server.js",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@types/node": "^26.1.1",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "unplugin-swc": "^1.5.9"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   }
 }
