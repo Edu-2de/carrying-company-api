@@ -1,5 +1,8 @@
+import { left, right, type Either } from '@/core/either'
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { DelivererNotAuthorizedError } from './errors/deliverer-not-authorized-error'
+import { OrderNotAvailableError } from './errors/order-not-available-error'
 import type { Coordinate } from './value-objects/coordinate'
 
 export enum OrderStatus {
@@ -55,18 +58,33 @@ export class Order extends Entity<OrderProps> {
     return this.props.delivererId
   }
 
-  pickUp(delivererId: UniqueEntityId) {
+  pickUp(delivererId: UniqueEntityId): Either<OrderNotAvailableError, null> {
     if (this.props.status !== OrderStatus.orderProcessed) {
-      throw new Error('Order is not available for pick up.')
+      return left(new OrderNotAvailableError())
     }
     this.props.delivererId = delivererId
     this.props.status = OrderStatus.inTransit
     this.touch()
+
+    return right(null)
   }
 
-  deliver() {
+  deliver(
+    delivererId: UniqueEntityId,
+    fileName: string,
+  ): Either<OrderNotAvailableError | DelivererNotAuthorizedError, null> {
+    if (this.props.status !== OrderStatus.inTransit) {
+      return left(new OrderNotAvailableError())
+    }
+
+    if (this.props.delivererId?.toString() !== delivererId.toString()) {
+      return left(new DelivererNotAuthorizedError())
+    }
     this.props.status = OrderStatus.delivered
+    this.props.fileName = fileName
     this.touch()
+
+    return right(null)
   }
 
   private touch() {
