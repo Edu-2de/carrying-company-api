@@ -21,4 +21,10 @@ export class InMemoryDelivererRepository implements DelivererRepository {
     if (!deliverer) return null
     return deliverer
   }
+
+  async findById(id: string) {
+    const deliverer = this.items.find((item) => item.id.toString() === id)
+    if (!deliverer) return null
+    return deliverer
+  }
 }
