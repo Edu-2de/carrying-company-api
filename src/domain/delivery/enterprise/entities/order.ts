@@ -2,7 +2,7 @@ import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import type { Coordinate } from './value-objects/coordinate'
 
-enum OrderStatus {
+export enum OrderStatus {
   orderProcessed = 'Order Processed',
   inTransit = 'In Transit',
   outForDelivery = 'Out for Delivery',
@@ -55,8 +55,8 @@ export class Order extends Entity<OrderProps> {
     return this.props.delivererId
   }
 
-  pickUp(deliverIid: UniqueEntityId) {
-    this.props.delivererId = deliverIid
+  pickUp(deliverId: UniqueEntityId) {
+    this.props.delivererId = deliverId
     this.props.status = OrderStatus.inTransit
     this.touch()
   }

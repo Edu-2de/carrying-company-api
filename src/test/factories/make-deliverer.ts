@@ -6,7 +6,7 @@ import {
 import { Cpf } from '@/domain/delivery/enterprise/entities/value-objects/cpf'
 import { faker } from '@faker-js/faker'
 
-export async function makeDeliverer(
+export function makeDeliverer(
   override: Partial<DelivererProps> = {},
   id?: UniqueEntityId,
 ) {
@@ -17,7 +17,6 @@ export async function makeDeliverer(
       email: faker.internet.email(),
       password: faker.lorem.text(),
       phoneNumber: faker.phone.number(),
-
       ...override,
     },
     id,

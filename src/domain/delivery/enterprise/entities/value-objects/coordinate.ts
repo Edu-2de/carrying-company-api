@@ -1,3 +1,5 @@
+import { InvalidCoordinateError } from './errors/invalid-coordinate-error'
+
 export class Coordinate {
   private readonly _latitude: number
   private readonly _longitude: number
@@ -17,11 +19,11 @@ export class Coordinate {
 
   static create(latitude: number, longitude: number): Coordinate {
     if (latitude < -90 || latitude > 90) {
-      throw new Error('Latitude inválida. Deve estar entre -90 e 90.')
+      throw new InvalidCoordinateError()
     }
 
     if (longitude < -180 || longitude > 180) {
-      throw new Error('Longitude inválida. Deve estar entre -180 e 180.')
+      throw new InvalidCoordinateError()
     }
 
     return new Coordinate(latitude, longitude)

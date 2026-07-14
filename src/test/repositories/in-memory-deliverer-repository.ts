@@ -12,13 +12,13 @@ export class InMemoryDelivererRepository implements DelivererRepository {
 
   async findByCpf(cpf: string) {
     const deliverer = this.items.find((item) => item.cpf.value === cpf)
-    if (!deliverer) return
+    if (!deliverer) return null
     return deliverer
   }
 
   async findByEmail(email: string) {
     const deliverer = this.items.find((item) => item.email === email)
-    if (!deliverer) return
+    if (!deliverer) return null
     return deliverer
   }
 }

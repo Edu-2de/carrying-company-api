@@ -1,3 +1,5 @@
+import { InvalidCpfError } from './errors/invalid-cpf-error'
+
 export class Cpf {
   private readonly _value: string
 
@@ -17,7 +19,7 @@ export class Cpf {
     const cleanCpf = cpf.replace(/\D/g, '')
 
     if (!this.validate(cleanCpf)) {
-      throw new Error('CPF inválido')
+      throw new InvalidCpfError()
     }
 
     return new Cpf(cleanCpf)

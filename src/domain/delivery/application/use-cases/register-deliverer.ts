@@ -1,6 +1,5 @@
 import { left, right, type Either } from '@/core/either'
 import { Deliverer } from '@domain/delivery/enterprise/entities/deliverer'
-import { Coordinate } from '@domain/delivery/enterprise/entities/value-objects/coordinate'
 import { Cpf } from '@domain/delivery/enterprise/entities/value-objects/cpf'
 import type { HashGenerator } from '../cryptography/hash-generator'
 import type { DelivererRepository } from '../repositories/deliverer-repository'
@@ -12,8 +11,6 @@ export interface RegisterDelivererUseCaseRequest {
   cpf: string
   email: string
   password: string
-  latitude: number
-  longitude: number
   phoneNumber: string
 }
 
@@ -33,29 +30,24 @@ export class RegisterDelivererUseCase {
     cpf,
     email,
     password,
-    latitude,
-    longitude,
     phoneNumber,
   }: RegisterDelivererUseCaseRequest): Promise<RegisterDelivererUseCaseResponse> {
     const cpfAlreadyExists = await this.delivererRepository.findByCpf(cpf)
     if (cpfAlreadyExists) return left(new CpfAlreadyExistsError())
 
-    const cpfToDomain = Cpf.create(cpf)
+    const formattedCpf = Cpf.create(cpf)
 
     const emailAlreadyExists = await this.delivererRepository.findByEmail(email)
     if (emailAlreadyExists) return left(new EmailAlreadyExistsError())
-
-    const locationToDomain = Coordinate.create(latitude, longitude)
 
     const passwordHash = await this.hashGenerator.hash(password)
 
     const deliverer = Deliverer.create({
       name,
-      cpf: cpfToDomain,
+      cpf: formattedCpf,
       email,
       password: passwordHash,
       phoneNumber,
-      location: locationToDomain,
     })
 
     await this.delivererRepository.create(deliverer)
