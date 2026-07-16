@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import type { PaginationParams } from '@/core/repositories/pagination-params'
 import type { OrderRepository } from '@/domain/delivery/application/repositories/order-repository'
 import type { Order } from '@/domain/delivery/enterprise/entities/order'
@@ -40,9 +41,13 @@ export class InMemoryOrderRepository implements OrderRepository {
     if (orderIndex > -1) {
       this.items[orderIndex] = order
     }
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
   async create(order: Order) {
     this.items.push(order)
+
+    DomainEvents.dispatchEventsForAggregate(order.id)
   }
 }
