@@ -6,7 +6,7 @@ import type { OrderRepository } from '../repositories/order-repository'
 export interface FetchNearOrdersUseCaseRequest {
   latitude: number
   longitude: number
-  page: number
+  page?: number
 }
 
 export type FetchNearOrdersUseCaseResponse = Either<{}, { orders: Order[] }>
@@ -17,7 +17,7 @@ export class FetchNearOrdersUseCase {
   async execute({
     latitude,
     longitude,
-    page,
+    page = 1,
   }: FetchNearOrdersUseCaseRequest): Promise<FetchNearOrdersUseCaseResponse> {
     const location = Coordinate.create(latitude, longitude)
 

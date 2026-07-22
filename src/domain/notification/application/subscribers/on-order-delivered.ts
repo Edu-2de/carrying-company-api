@@ -3,7 +3,9 @@ import { OrderDeliveredEvent } from '@/domain/delivery/enterprise/events/order-d
 import { SendNotificationUseCase } from '../use-cases/send-notification'
 
 export class OnOrderDelivered {
-  constructor(private sendNotification: SendNotificationUseCase) {}
+  constructor(private sendNotification: SendNotificationUseCase) {
+    this.setupSubscriptions()
+  }
 
   setupSubscriptions() {
     DomainEvents.register(
