@@ -10,7 +10,7 @@ let managerRepository: InMemoryManagerRepository
 let hasher: FakeHasher
 let sut: RegisterManagerUseCase
 
-describe('Register Deliverer Use Case', () => {
+describe('Register Manager Use Case', () => {
   beforeEach(async () => {
     managerRepository = new InMemoryManagerRepository()
     hasher = new FakeHasher()
