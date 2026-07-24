@@ -1,0 +1,25 @@
+import type { ManagerRepository } from '@/domain/delivery/application/repositories/manager-repository'
+import type { Manager } from '@/domain/delivery/enterprise/entities/manager'
+import { PrismaManagerMapper } from '../mappers/prisma-manager-mapper'
+import type { PrismaService } from '../prisma.service'
+
+export class PrismaManagerRepository implements ManagerRepository {
+  constructor(private prisma: PrismaService) {}
+
+  async create(manager: Manager): Promise<void> {
+    const data = PrismaManagerMapper.toPrisma(manager)
+    await this.prisma.user.create({
+      data,
+    })
+  }
+
+  async findByCpf(cpf: string): Promise<Manager | null> {
+    const manager = await this.prisma.user.findUnique({
+      where: {
+        cpf,
+      },
+    })
+    if (!manager) return null
+    return manager
+  }
+}

@@ -49,6 +49,10 @@ export class Order extends AggregateRoot<OrderProps> {
     return this.props.createdAt
   }
 
+  get expectedDate() {
+    return this.props.expectedDate
+  }
+
   get updatedAt() {
     return this.props.updatedAt
   }

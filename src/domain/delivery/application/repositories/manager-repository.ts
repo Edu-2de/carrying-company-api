@@ -1,6 +1,6 @@
 import type { Manager } from '../../enterprise/entities/manager'
 
-export interface ManagerRepository {
-  create(data: Manager): Promise<void>
-  findByCpf(cpf: string): Promise<Manager | void>
+export abstract class ManagerRepository {
+  abstract create(data: Manager): Promise<void>
+  abstract findByCpf(cpf: string): Promise<Manager | null>
 }

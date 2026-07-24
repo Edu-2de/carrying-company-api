@@ -10,7 +10,7 @@ export class InMemoryManagerRepository implements ManagerRepository {
 
   async findByCpf(cpf: string) {
     const manager = this.items.find((item) => item.cpf.value === cpf)
-    if (!manager) return
+    if (!manager) return null
     return manager
   }
 }
