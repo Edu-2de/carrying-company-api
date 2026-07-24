@@ -17,7 +17,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@domain/*": ["./src/domain/*"],
-      "@prismaInfra/*": ["./src/infra/prisma/*"]
+      "@prismaInfra/*": ["./src/infra/database/prisma/*"]
     },
 
     "strict": true,

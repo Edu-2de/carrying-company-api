@@ -1,7 +1,7 @@
 import type { Recipient } from '@domain/delivery/enterprise/entities/recipient'
 
-export interface RecipientRepository {
-  findByCpf(cpf: string): Promise<Recipient | null>
-  findById(id: string): Promise<Recipient | null>
-  create(data: Recipient): Promise<void>
+export abstract class RecipientRepository {
+  abstract findByCpf(cpf: string): Promise<Recipient | null>
+  abstract findById(id: string): Promise<Recipient | null>
+  abstract create(data: Recipient): Promise<void>
 }
