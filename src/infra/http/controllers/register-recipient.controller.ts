@@ -20,7 +20,7 @@ const registerRecipientSchema = z.object({
 
 type RegisterRecipientBodySchema = z.infer<typeof registerRecipientSchema>
 
-@Controller('/accounts')
+@Controller('/recipients')
 export class RegisterRecipientController {
   constructor(private registerRecipient: RegisterRecipientUseCase) {}
 

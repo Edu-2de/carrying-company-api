@@ -13,7 +13,7 @@ export class PrismaRecipientRepository implements RecipientRepository {
       },
     })
     if (!recipient) return null
-    return recipient
+    return PrismaRecipientMapper.toDomain(recipient)
   }
 
   async findById(id: string): Promise<Recipient | null> {
@@ -23,7 +23,7 @@ export class PrismaRecipientRepository implements RecipientRepository {
       },
     })
     if (!recipient) return null
-    return recipient
+    return PrismaRecipientMapper.toDomain(recipient)
   }
 
   async create(recipient: Recipient): Promise<void> {
