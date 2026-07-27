@@ -1,8 +1,9 @@
 import { left, right, type Either } from '@/core/either'
 import { Deliverer } from '@domain/delivery/enterprise/entities/deliverer'
 import { Cpf } from '@domain/delivery/enterprise/entities/value-objects/cpf'
-import type { HashGenerator } from '../cryptography/hash-generator'
-import type { DelivererRepository } from '../repositories/deliverer-repository'
+import { Injectable } from '@nestjs/common'
+import { HashGenerator } from '../cryptography/hash-generator'
+import { DelivererRepository } from '../repositories/deliverer-repository'
 import { CpfAlreadyExistsError } from './errors/cpf-already-exists-error'
 import { EmailAlreadyExistsError } from './errors/email-already-exists-error'
 
@@ -19,6 +20,7 @@ type RegisterDelivererUseCaseResponse = Either<
   {}
 >
 
+@Injectable()
 export class RegisterDelivererUseCase {
   constructor(
     private delivererRepository: DelivererRepository,

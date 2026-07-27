@@ -1,8 +1,10 @@
-import type { DelivererRepository } from '@/domain/delivery/application/repositories/deliverer-repository'
-import type { Deliverer } from '@/domain/delivery/enterprise/entities/deliverer'
+import { DelivererRepository } from '@/domain/delivery/application/repositories/deliverer-repository'
+import { Deliverer } from '@/domain/delivery/enterprise/entities/deliverer'
+import { Injectable } from '@nestjs/common'
 import { PrismaDelivererMapper } from '../mappers/prisma-deliverer-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
+@Injectable()
 export class PrismaDelivererRepository implements DelivererRepository {
   constructor(private prisma: PrismaService) {}
 
@@ -13,7 +15,7 @@ export class PrismaDelivererRepository implements DelivererRepository {
       },
     })
     if (!deliverer) return null
-    return deliverer
+    return PrismaDelivererMapper.toDomain(deliverer)
   }
 
   async findByEmail(email: string): Promise<Deliverer | null> {
@@ -23,7 +25,7 @@ export class PrismaDelivererRepository implements DelivererRepository {
       },
     })
     if (!deliverer) return null
-    return deliverer
+    return PrismaDelivererMapper.toDomain(deliverer)
   }
 
   async findById(id: string): Promise<Deliverer | null> {
@@ -33,7 +35,7 @@ export class PrismaDelivererRepository implements DelivererRepository {
       },
     })
     if (!deliverer) return null
-    return deliverer
+    return PrismaDelivererMapper.toDomain(deliverer)
   }
 
   async create(deliverer: Deliverer): Promise<void> {
