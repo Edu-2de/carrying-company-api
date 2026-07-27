@@ -39,11 +39,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.9.0
+ * Prisma Client JS version: 7.9.1
  * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
  */
 Prisma.prismaVersion = {
-  client: "7.9.0",
+  client: "7.9.1",
   engine: "e922089b7d7502aff4249d5da3420f6fa55fc6ad"
 }
 
@@ -171,7 +171,7 @@ exports.Prisma.ModelName = {
  */
 const config = {
   "previewFeatures": [],
-  "clientVersion": "7.9.0",
+  "clientVersion": "7.9.1",
   "engineVersion": "e922089b7d7502aff4249d5da3420f6fa55fc6ad",
   "activeProvider": "postgresql",
   "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum UserRole {\n  DELIVERER\n  MANAGER\n}\n\nmodel User {\n  id       String   @id @default(uuid())\n  name     String\n  cpf      String   @unique\n  email    String   @unique\n  password String\n  phone    String\n  role     UserRole\n\n  ordersToDeliver Order[]\n\n  @@map(\"users\")\n}\n\nmodel Recipient {\n  id        String @id @default(uuid())\n  name      String\n  cpf       String @unique\n  phone     String\n  latitude  Float\n  longitude Float\n\n  ordersToReceive Order[]\n  notifications   Notification[]\n\n  @@map(\"recipients\")\n}\n\nenum OrderStatus {\n  PROCESSED\n  INTRANSIT\n  FORDELIVERY\n  DELIVERED\n  RETURNED\n}\n\nmodel Order {\n  id           String      @id @default(uuid())\n  title        String\n  status       OrderStatus @default(PROCESSED)\n  fileName     String?\n  latitude     Float\n  longitude    Float\n  expectedDate DateTime    @map(\"expected_date\")\n  createdAt    DateTime    @default(now()) @map(\"created_at\")\n  updatedAt    DateTime?   @updatedAt @map(\"updated_at\")\n\n  delivererId String? @map(\"deliverer_id\") // Entregador é opcional no início\n  recipientId String  @map(\"recipient_id\") // Destinatário é obrigatório\n\n  deliverer User?     @relation(fields: [delivererId], references: [id])\n  recipient Recipient @relation(fields: [recipientId], references: [id])\n\n  @@map(\"orders\")\n}\n\nmodel Notification {\n  id        String   @id @default(uuid())\n  title     String\n  content   String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n\n  recipientId String    @map(\"recipient_id\")\n  recipient   Recipient @relation(fields: [recipientId], references: [id])\n\n  @@map(\"notifications\")\n}\n"

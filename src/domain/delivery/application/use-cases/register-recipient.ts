@@ -2,7 +2,8 @@ import { left, right, type Either } from '@/core/either'
 import { Recipient } from '@domain/delivery/enterprise/entities/recipient'
 import { Coordinate } from '@domain/delivery/enterprise/entities/value-objects/coordinate'
 import { Cpf } from '@domain/delivery/enterprise/entities/value-objects/cpf'
-import type { RecipientRepository } from '../repositories/recipient-repository'
+import { Injectable } from '@nestjs/common'
+import { RecipientRepository } from '../repositories/recipient-repository'
 import { CpfAlreadyExistsError } from './errors/cpf-already-exists-error'
 
 export interface RegisterRecipientUseCaseRequest {
@@ -15,6 +16,7 @@ export interface RegisterRecipientUseCaseRequest {
 
 export type RegisterRecipientUseCaseResponse = Either<CpfAlreadyExistsError, {}>
 
+@Injectable()
 export class RegisterRecipientUseCase {
   constructor(private recipientRepository: RecipientRepository) {}
 

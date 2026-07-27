@@ -1,9 +1,14 @@
 import type { Env } from '@/infra/env/env'
-import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common'
+import {
+  Injectable,
+  type OnModuleDestroy,
+  type OnModuleInit,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from './generated/prisma/client'
 
+@Injectable()
 export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
@@ -15,8 +20,6 @@ export class PrismaService
 
     super({
       adapter,
-      errorFormat: 'pretty',
-      log: ['warn', 'error'],
     })
   }
 
