@@ -1,8 +1,9 @@
 import { left, right, type Either } from '@/core/either'
+import { Injectable } from '@nestjs/common'
 import { Manager } from '../../enterprise/entities/manager'
 import { Cpf } from '../../enterprise/entities/value-objects/cpf'
-import type { HashGenerator } from '../cryptography/hash-generator'
-import type { ManagerRepository } from '../repositories/manager-repository'
+import { HashGenerator } from '../cryptography/hash-generator'
+import { ManagerRepository } from '../repositories/manager-repository'
 import { CpfAlreadyExistsError } from './errors/cpf-already-exists-error'
 
 export interface RegisterManagerUseCaseRequest {
@@ -13,8 +14,9 @@ export interface RegisterManagerUseCaseRequest {
   phoneNumber: string
 }
 
-export type RegisterManagerUseCaseResponse = Either<{}, {}>
+export type RegisterManagerUseCaseResponse = Either<CpfAlreadyExistsError, {}>
 
+@Injectable()
 export class RegisterManagerUseCase {
   constructor(
     private managerRepository: ManagerRepository,

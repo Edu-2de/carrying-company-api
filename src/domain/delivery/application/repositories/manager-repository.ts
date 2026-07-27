@@ -1,4 +1,4 @@
-import type { Manager } from '../../enterprise/entities/manager'
+import { Manager } from '../../enterprise/entities/manager'
 
 export abstract class ManagerRepository {
   abstract create(data: Manager): Promise<void>

@@ -3,7 +3,7 @@ import type { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Create account (E2E)', () => {
+describe('Create recipient account (E2E)', () => {
   let app: INestApplication
 
   beforeAll(async () => {

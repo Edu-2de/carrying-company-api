@@ -1,8 +1,10 @@
-import type { ManagerRepository } from '@/domain/delivery/application/repositories/manager-repository'
+import { ManagerRepository } from '@/domain/delivery/application/repositories/manager-repository'
 import type { Manager } from '@/domain/delivery/enterprise/entities/manager'
+import { Injectable } from '@nestjs/common'
 import { PrismaManagerMapper } from '../mappers/prisma-manager-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
+@Injectable()
 export class PrismaManagerRepository implements ManagerRepository {
   constructor(private prisma: PrismaService) {}
 
@@ -20,6 +22,6 @@ export class PrismaManagerRepository implements ManagerRepository {
       },
     })
     if (!manager) return null
-    return manager
+    return PrismaManagerMapper.toDomain(manager)
   }
 }
