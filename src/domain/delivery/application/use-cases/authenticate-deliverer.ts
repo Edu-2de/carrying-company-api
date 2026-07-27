@@ -1,7 +1,8 @@
 import { left, right, type Either } from '@/core/either'
-import type { Encrypter } from '../cryptography/encrypter'
-import type { HashCompare } from '../cryptography/hash-compare'
-import type { DelivererRepository } from '../repositories/deliverer-repository'
+import { Injectable } from '@nestjs/common'
+import { Encrypter } from '../cryptography/encrypter'
+import { HashCompare } from '../cryptography/hash-compare'
+import { DelivererRepository } from '../repositories/deliverer-repository'
 import { DelivererDoesNotExistsError } from './errors/deliverer-does-not-exists-error'
 import { NotAllowedError } from './errors/not-allowed-error'
 
@@ -15,6 +16,7 @@ export type AuthenticateDelivererUseCaseResponse = Either<
   { token: string }
 >
 
+@Injectable()
 export class AuthenticateDelivererUseCase {
   constructor(
     private delivererRepository: DelivererRepository,

@@ -1,7 +1,8 @@
 import { left, right, type Either } from '@/core/either'
-import type { Order } from '../../enterprise/entities/order'
-import type { DelivererRepository } from '../repositories/deliverer-repository'
-import type { OrderRepository } from '../repositories/order-repository'
+import { Injectable } from '@nestjs/common'
+import { Order } from '../../enterprise/entities/order'
+import { DelivererRepository } from '../repositories/deliverer-repository'
+import { OrderRepository } from '../repositories/order-repository'
 import { DelivererDoesNotExistsError } from './errors/deliverer-does-not-exists-error'
 
 export interface FetchDelivererOrdersUseCaseRequest {
@@ -14,6 +15,7 @@ export type FetchDelivererOrdersUseCaseResponse = Either<
   { orders: Order[] }
 >
 
+@Injectable()
 export class FetchDelivererOrdersUseCase {
   constructor(
     private delivererRepository: DelivererRepository,

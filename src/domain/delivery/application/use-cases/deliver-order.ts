@@ -1,8 +1,9 @@
 import { left, right, type Either } from '@/core/either'
-import type { DelivererNotAuthorizedError } from '../../enterprise/entities/errors/deliverer-not-authorized-error'
-import type { OrderNotAvailableError } from '../../enterprise/entities/errors/order-not-available-error'
-import type { DelivererRepository } from '../repositories/deliverer-repository'
-import type { OrderRepository } from '../repositories/order-repository'
+import { Injectable } from '@nestjs/common'
+import { DelivererNotAuthorizedError } from '../../enterprise/entities/errors/deliverer-not-authorized-error'
+import { OrderNotAvailableError } from '../../enterprise/entities/errors/order-not-available-error'
+import { DelivererRepository } from '../repositories/deliverer-repository'
+import { OrderRepository } from '../repositories/order-repository'
 import { DelivererDoesNotExistsError } from './errors/deliverer-does-not-exists-error'
 import { OrderDoesNotExistsError } from './errors/order-does-not-exists-error'
 
@@ -20,6 +21,7 @@ export type DeliverOrderUseCaseResponse = Either<
   {}
 >
 
+@Injectable()
 export class DeliverOrderUseCase {
   constructor(
     private orderRepository: OrderRepository,

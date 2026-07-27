@@ -1,7 +1,8 @@
 import { left, right, type Either } from '@/core/either'
-import type { Encrypter } from '../cryptography/encrypter'
-import type { HashCompare } from '../cryptography/hash-compare'
-import type { ManagerRepository } from '../repositories/manager-repository'
+import { Injectable } from '@nestjs/common'
+import { Encrypter } from '../cryptography/encrypter'
+import { HashCompare } from '../cryptography/hash-compare'
+import { ManagerRepository } from '../repositories/manager-repository'
 import { ManagerDoesNotExistsError } from './errors/manager-does-not-exists-error'
 import { NotAllowedError } from './errors/not-allowed-error'
 
@@ -15,6 +16,7 @@ export type AuthenticateManagerUseCaseResponse = Either<
   { token: string }
 >
 
+@Injectable()
 export class AuthenticateManagerUseCase {
   constructor(
     private managerRepository: ManagerRepository,

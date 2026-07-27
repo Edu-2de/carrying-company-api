@@ -1,7 +1,8 @@
 import { right, type Either } from '@/core/either'
-import type { Order } from '@domain/delivery/enterprise/entities/order'
+import { Order } from '@domain/delivery/enterprise/entities/order'
 import { Coordinate } from '@domain/delivery/enterprise/entities/value-objects/coordinate'
-import type { OrderRepository } from '../repositories/order-repository'
+import { Injectable } from '@nestjs/common'
+import { OrderRepository } from '../repositories/order-repository'
 
 export interface FetchNearOrdersUseCaseRequest {
   latitude: number
@@ -11,6 +12,7 @@ export interface FetchNearOrdersUseCaseRequest {
 
 export type FetchNearOrdersUseCaseResponse = Either<{}, { orders: Order[] }>
 
+@Injectable()
 export class FetchNearOrdersUseCase {
   constructor(private orderRepository: OrderRepository) {}
 
