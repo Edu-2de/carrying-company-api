@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  DELIVERER
+  MANAGER
+}
+
+model User {
+  id       String   @id @default(uuid())
+  name     String
+  cpf      String   @unique
+  email    String   @unique
+  password String
+  phone    String
+  role     UserRole
+
+  ordersToDeliver Order[]
+
+  @@map("users")
+}
+
+model Recipient {
+  id        String @id @default(uuid())
+  name      String
+  cpf       String @unique
+  phone     String
+  latitude  Float
+  longitude Float
+
+  ordersToReceive Order[]
+  notifications   Notification[]
+
+  @@map("recipients")
+}
+
+enum OrderStatus {
+  PROCESSED
+  INTRANSIT
+  FORDELIVERY
+  DELIVERED
+  RETURNED
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  title        String
+  status       OrderStatus @default(PROCESSED)
+  fileName     String?
+  latitude     Float
+  longitude    Float
+  expectedDate DateTime    @map("expected_date")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime?   @updatedAt @map("updated_at")
+
+  delivererId String? @map("deliverer_id") // Entregador é opcional no início
+  recipientId String  @map("recipient_id") // Destinatário é obrigatório
+
+  deliverer User?     @relation(fields: [delivererId], references: [id])
+  recipient Recipient @relation(fields: [recipientId], references: [id])
+
+  @@map("orders")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  recipientId String    @map("recipient_id")
+  recipient   Recipient @relation(fields: [recipientId], references: [id])
+
+  @@map("notifications")
+}
