@@ -1,5 +1,5 @@
 import { CpfAlreadyExistsError } from '@/domain/delivery/application/use-cases/errors/cpf-already-exists-error'
-import type { RegisterRecipientUseCase } from '@/domain/delivery/application/use-cases/register-recipient'
+import { RegisterRecipientUseCase } from '@/domain/delivery/application/use-cases/register-recipient'
 import {
   BadRequestException,
   Body,

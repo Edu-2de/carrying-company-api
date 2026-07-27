@@ -1,6 +1,8 @@
-import type { ConfigService } from '@nestjs/config'
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import type { Env } from './env'
 
+@Injectable()
 export class EnvService {
   constructor(private configService: ConfigService<Env, true>) {}
 

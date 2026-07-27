@@ -1,10 +1,12 @@
 import type { RecipientRepository } from '@/domain/delivery/application/repositories/recipient-repository'
 import type { Recipient } from '@/domain/delivery/enterprise/entities/recipient'
-import type { PrismaClient } from '../generated/prisma/client'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
 import { PrismaRecipientMapper } from '../mappers/prisma-recipient-mapper'
 
+@Injectable()
 export class PrismaRecipientRepository implements RecipientRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaService) {}
 
   async findByCpf(cpf: string): Promise<Recipient | null> {
     const recipient = await this.prisma.recipient.findUnique({
