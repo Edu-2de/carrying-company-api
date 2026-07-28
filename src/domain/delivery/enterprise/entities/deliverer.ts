@@ -9,7 +9,7 @@ export interface DelivererProps {
   password: string
   phoneNumber: string
   createdAt?: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Deliverer extends Entity<DelivererProps> {

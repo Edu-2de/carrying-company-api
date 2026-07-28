@@ -43,6 +43,8 @@ export type RecipientMinAggregateOutputType = {
   phone: string | null
   latitude: number | null
   longitude: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RecipientMaxAggregateOutputType = {
@@ -52,6 +54,8 @@ export type RecipientMaxAggregateOutputType = {
   phone: string | null
   latitude: number | null
   longitude: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RecipientCountAggregateOutputType = {
@@ -61,6 +65,8 @@ export type RecipientCountAggregateOutputType = {
   phone: number
   latitude: number
   longitude: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -82,6 +88,8 @@ export type RecipientMinAggregateInputType = {
   phone?: true
   latitude?: true
   longitude?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type RecipientMaxAggregateInputType = {
@@ -91,6 +99,8 @@ export type RecipientMaxAggregateInputType = {
   phone?: true
   latitude?: true
   longitude?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type RecipientCountAggregateInputType = {
@@ -100,6 +110,8 @@ export type RecipientCountAggregateInputType = {
   phone?: true
   latitude?: true
   longitude?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -196,6 +208,8 @@ export type RecipientGroupByOutputType = {
   phone: string
   latitude: number
   longitude: number
+  createdAt: Date
+  updatedAt: Date | null
   _count: RecipientCountAggregateOutputType | null
   _avg: RecipientAvgAggregateOutputType | null
   _sum: RecipientSumAggregateOutputType | null
@@ -228,6 +242,8 @@ export type RecipientWhereInput = {
   phone?: Prisma.StringFilter<"Recipient"> | string
   latitude?: Prisma.FloatFilter<"Recipient"> | number
   longitude?: Prisma.FloatFilter<"Recipient"> | number
+  createdAt?: Prisma.DateTimeFilter<"Recipient"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Recipient"> | Date | string | null
   ordersToReceive?: Prisma.OrderListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
 }
@@ -239,6 +255,8 @@ export type RecipientOrderByWithRelationInput = {
   phone?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   ordersToReceive?: Prisma.OrderOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
@@ -253,6 +271,8 @@ export type RecipientWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringFilter<"Recipient"> | string
   latitude?: Prisma.FloatFilter<"Recipient"> | number
   longitude?: Prisma.FloatFilter<"Recipient"> | number
+  createdAt?: Prisma.DateTimeFilter<"Recipient"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableFilter<"Recipient"> | Date | string | null
   ordersToReceive?: Prisma.OrderListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "cpf">
@@ -264,6 +284,8 @@ export type RecipientOrderByWithAggregationInput = {
   phone?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RecipientCountOrderByAggregateInput
   _avg?: Prisma.RecipientAvgOrderByAggregateInput
   _max?: Prisma.RecipientMaxOrderByAggregateInput
@@ -281,6 +303,8 @@ export type RecipientScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringWithAggregatesFilter<"Recipient"> | string
   latitude?: Prisma.FloatWithAggregatesFilter<"Recipient"> | number
   longitude?: Prisma.FloatWithAggregatesFilter<"Recipient"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Recipient"> | Date | string
+  updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Recipient"> | Date | string | null
 }
 
 export type RecipientCreateInput = {
@@ -290,6 +314,8 @@ export type RecipientCreateInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   ordersToReceive?: Prisma.OrderCreateNestedManyWithoutRecipientInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
@@ -301,6 +327,8 @@ export type RecipientUncheckedCreateInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   ordersToReceive?: Prisma.OrderUncheckedCreateNestedManyWithoutRecipientInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
@@ -312,6 +340,8 @@ export type RecipientUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ordersToReceive?: Prisma.OrderUpdateManyWithoutRecipientNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
@@ -323,6 +353,8 @@ export type RecipientUncheckedUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ordersToReceive?: Prisma.OrderUncheckedUpdateManyWithoutRecipientNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
@@ -334,6 +366,8 @@ export type RecipientCreateManyInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
 }
 
 export type RecipientUpdateManyMutationInput = {
@@ -343,6 +377,8 @@ export type RecipientUpdateManyMutationInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RecipientUncheckedUpdateManyInput = {
@@ -352,6 +388,8 @@ export type RecipientUncheckedUpdateManyInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RecipientCountOrderByAggregateInput = {
@@ -361,6 +399,8 @@ export type RecipientCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RecipientAvgOrderByAggregateInput = {
@@ -375,6 +415,8 @@ export type RecipientMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RecipientMinOrderByAggregateInput = {
@@ -384,6 +426,8 @@ export type RecipientMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RecipientSumOrderByAggregateInput = {
@@ -439,6 +483,8 @@ export type RecipientCreateWithoutOrdersToReceiveInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
 }
 
@@ -449,6 +495,8 @@ export type RecipientUncheckedCreateWithoutOrdersToReceiveInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
 }
 
@@ -475,6 +523,8 @@ export type RecipientUpdateWithoutOrdersToReceiveInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
 }
 
@@ -485,6 +535,8 @@ export type RecipientUncheckedUpdateWithoutOrdersToReceiveInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
@@ -495,6 +547,8 @@ export type RecipientCreateWithoutNotificationsInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   ordersToReceive?: Prisma.OrderCreateNestedManyWithoutRecipientInput
 }
 
@@ -505,6 +559,8 @@ export type RecipientUncheckedCreateWithoutNotificationsInput = {
   phone: string
   latitude: number
   longitude: number
+  createdAt?: Date | string
+  updatedAt?: Date | string | null
   ordersToReceive?: Prisma.OrderUncheckedCreateNestedManyWithoutRecipientInput
 }
 
@@ -531,6 +587,8 @@ export type RecipientUpdateWithoutNotificationsInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ordersToReceive?: Prisma.OrderUpdateManyWithoutRecipientNestedInput
 }
 
@@ -541,6 +599,8 @@ export type RecipientUncheckedUpdateWithoutNotificationsInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ordersToReceive?: Prisma.OrderUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
@@ -591,6 +651,8 @@ export type RecipientSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   phone?: boolean
   latitude?: boolean
   longitude?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   ordersToReceive?: boolean | Prisma.Recipient$ordersToReceiveArgs<ExtArgs>
   notifications?: boolean | Prisma.Recipient$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.RecipientCountOutputTypeDefaultArgs<ExtArgs>
@@ -603,6 +665,8 @@ export type RecipientSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   phone?: boolean
   latitude?: boolean
   longitude?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["recipient"]>
 
 export type RecipientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -612,6 +676,8 @@ export type RecipientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   phone?: boolean
   latitude?: boolean
   longitude?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["recipient"]>
 
 export type RecipientSelectScalar = {
@@ -621,9 +687,11 @@ export type RecipientSelectScalar = {
   phone?: boolean
   latitude?: boolean
   longitude?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type RecipientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "cpf" | "phone" | "latitude" | "longitude", ExtArgs["result"]["recipient"]>
+export type RecipientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "cpf" | "phone" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["recipient"]>
 export type RecipientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ordersToReceive?: boolean | Prisma.Recipient$ordersToReceiveArgs<ExtArgs>
   notifications?: boolean | Prisma.Recipient$notificationsArgs<ExtArgs>
@@ -645,6 +713,8 @@ export type $RecipientPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     phone: string
     latitude: number
     longitude: number
+    createdAt: Date
+    updatedAt: Date | null
   }, ExtArgs["result"]["recipient"]>
   composites: {}
 }
@@ -1076,6 +1146,8 @@ export interface RecipientFieldRefs {
   readonly phone: Prisma.FieldRef<"Recipient", 'String'>
   readonly latitude: Prisma.FieldRef<"Recipient", 'Float'>
   readonly longitude: Prisma.FieldRef<"Recipient", 'Float'>
+  readonly createdAt: Prisma.FieldRef<"Recipient", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Recipient", 'DateTime'>
 }
     
 

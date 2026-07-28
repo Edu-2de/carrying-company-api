@@ -16,6 +16,8 @@ export class PrismaRecipientMapper {
       phone: raw.phoneNumber,
       latitude: raw.location.latitude,
       longitude: raw.location.longitude,
+      createdAt: raw.createdAt ?? new Date(),
+      updatedAt: raw.updatedAt ?? new Date(),
     }
 
     return recipient
@@ -28,6 +30,8 @@ export class PrismaRecipientMapper {
         cpf: Cpf.create(raw.cpf),
         phoneNumber: raw.phone,
         location: Coordinate.create(raw.latitude, raw.longitude),
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityId(raw.id),
     )

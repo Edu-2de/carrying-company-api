@@ -2,7 +2,9 @@ import type { NotificationRepository } from '@/domain/notification/application/r
 import type { Notification } from '@/domain/notification/enterprise/entities/notification'
 import { PrismaNotificationMapper } from '../mappers/prisma-notification-mapper'
 import type { PrismaService } from '../prisma.service'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class PrismaNotificationRepository implements NotificationRepository {
   constructor(private prisma: PrismaService) {}
 

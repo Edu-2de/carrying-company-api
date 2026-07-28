@@ -35,7 +35,18 @@ const prisma = new PrismaClient({ adapter })
 beforeAll(async () => {
   DomainEvents.shouldRun = false
 
-  execSync('pnpm prisma migrate deploy', { stdio: 'pipe' })
+  try {
+    execSync('pnpm prisma db push --accept-data-loss', {
+      env: {
+        ...process.env,
+        DATABASE_URL: process.env.DATABASE_URL,
+      },
+      stdio: 'ignore',
+    })
+  } catch (error) {
+    console.error('Erro ao rodar db push:', error)
+    throw error
+  }
 }, 60000)
 
 afterAll(async () => {

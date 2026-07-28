@@ -16,6 +16,8 @@ export class PrismaManagerMapper {
       password: raw.password,
       phone: raw.phoneNumber,
       role: UserRole.MANAGER,
+      createdAt: raw.createdAt ?? new Date(),
+      updatedAt: raw.updatedAt ?? new Date(),
     }
 
     return manager
@@ -29,6 +31,8 @@ export class PrismaManagerMapper {
         email: raw.email,
         password: raw.password,
         phoneNumber: raw.phone,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityId(raw.id),
     )

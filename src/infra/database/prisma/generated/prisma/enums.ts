@@ -18,11 +18,11 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
 export const OrderStatus = {
-  PROCESSED: 'PROCESSED',
-  INTRANSIT: 'INTRANSIT',
-  FORDELIVERY: 'FORDELIVERY',
-  DELIVERED: 'DELIVERED',
-  RETURNED: 'RETURNED'
+  orderProcessed: 'orderProcessed',
+  inTransit: 'inTransit',
+  outForDelivery: 'outForDelivery',
+  delivered: 'delivered',
+  returned: 'returned'
 } as const
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]

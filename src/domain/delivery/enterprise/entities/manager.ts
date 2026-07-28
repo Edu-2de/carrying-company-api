@@ -9,7 +9,7 @@ export interface ManagerProps {
   password: string
   phoneNumber: string
   createdAt?: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Manager extends Entity<ManagerProps> {

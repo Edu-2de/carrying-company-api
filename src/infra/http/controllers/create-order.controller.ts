@@ -1,4 +1,4 @@
-import type { CreateOrderUseCase } from '@/domain/delivery/application/use-cases/create-order'
+import { CreateOrderUseCase } from '@/domain/delivery/application/use-cases/create-order'
 import { RecipientDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/recipient-does-not-exists-error'
 import {
   BadRequestException,

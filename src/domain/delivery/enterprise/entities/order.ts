@@ -9,23 +9,23 @@ import { OrderNotAvailableError } from './errors/order-not-available-error'
 import type { Coordinate } from './value-objects/coordinate'
 
 export enum OrderStatus {
-  orderProcessed = 'Order Processed',
-  inTransit = 'In Transit',
-  outForDelivery = 'Out for Delivery',
-  delivered = 'Delivered',
-  returned = 'Returned',
+  orderProcessed = 'orderProcessed',
+  inTransit = 'inTransit',
+  outForDelivery = 'outForDelivery',
+  delivered = 'delivered',
+  returned = 'returned',
 }
 
 export interface OrderProps {
   title: string
   location: Coordinate
   status?: OrderStatus
-  fileName?: string
+  fileName?: string | null
+  delivererId?: UniqueEntityId | null
   createdAt?: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
   expectedDate: Date
   recipientId: UniqueEntityId
-  delivererId?: UniqueEntityId
 }
 
 export class Order extends AggregateRoot<OrderProps> {

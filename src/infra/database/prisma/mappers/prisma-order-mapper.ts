@@ -1,29 +1,39 @@
-import type { Order } from '@/domain/delivery/enterprise/entities/order'
-import { OrderStatus as DomainOrderStatus } from '@/domain/delivery/enterprise/entities/order'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
+  OrderStatus as DomainOrderStatus,
+  Order,
+} from '@/domain/delivery/enterprise/entities/order'
+import { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
+import {
+  Prisma,
+  type Order as PrismaOrder,
   OrderStatus as PrismaOrderStatus,
-  type Prisma,
 } from '../generated/prisma/client'
 
-const statusMap: Record<DomainOrderStatus, PrismaOrderStatus> = {
-  [DomainOrderStatus.orderProcessed]: PrismaOrderStatus.PROCESSED,
-  [DomainOrderStatus.inTransit]: PrismaOrderStatus.INTRANSIT,
-  [DomainOrderStatus.outForDelivery]: PrismaOrderStatus.FORDELIVERY,
-  [DomainOrderStatus.delivered]: PrismaOrderStatus.DELIVERED,
-  [DomainOrderStatus.returned]: PrismaOrderStatus.RETURNED,
+const toDomainStatus: Record<PrismaOrderStatus, DomainOrderStatus> = {
+  orderProcessed: DomainOrderStatus.orderProcessed,
+  inTransit: DomainOrderStatus.inTransit,
+  outForDelivery: DomainOrderStatus.outForDelivery,
+  delivered: DomainOrderStatus.delivered,
+  returned: DomainOrderStatus.returned,
+}
+
+const toPrismaStatus: Record<DomainOrderStatus, PrismaOrderStatus> = {
+  [DomainOrderStatus.orderProcessed]: PrismaOrderStatus.orderProcessed,
+  [DomainOrderStatus.inTransit]: PrismaOrderStatus.inTransit,
+  [DomainOrderStatus.outForDelivery]: PrismaOrderStatus.outForDelivery,
+  [DomainOrderStatus.delivered]: PrismaOrderStatus.delivered,
+  [DomainOrderStatus.returned]: PrismaOrderStatus.returned,
 }
 
 export class PrismaOrderMapper {
   static toPrisma(raw: Order): Prisma.OrderUncheckedCreateInput {
-    // 4. Traduzimos o status do domínio para o status da infra, com fallback para PROCESSED
-    const prismaStatus = raw.status
-      ? statusMap[raw.status]
-      : PrismaOrderStatus.PROCESSED
-
     const order: Prisma.OrderUncheckedCreateInput = {
       id: raw.id.toString(),
       title: raw.title,
-      status: prismaStatus, // <-- Usamos o valor traduzido aqui
+      status: raw.status
+        ? toPrismaStatus[raw.status]
+        : PrismaOrderStatus.orderProcessed,
       latitude: raw.location.latitude,
       longitude: raw.location.longitude,
       expectedDate: raw.expectedDate,
@@ -36,6 +46,26 @@ export class PrismaOrderMapper {
     if (raw.createdAt) {
       order.createdAt = raw.createdAt
     }
+
+    return order
+  }
+
+  static toDomain(raw: PrismaOrder): Order {
+    const order = new Order(
+      {
+        title: raw.title,
+        status: toDomainStatus[raw.status],
+        expectedDate: raw.expectedDate,
+        location: Coordinate.create(raw.latitude, raw.longitude),
+        recipientId: new UniqueEntityId(raw.recipientId),
+        delivererId: raw.delivererId
+          ? new UniqueEntityId(raw.delivererId)
+          : null,
+        fileName: raw.fileName,
+        updatedAt: raw.updatedAt,
+      },
+      new UniqueEntityId(raw.id),
+    )
 
     return order
   }

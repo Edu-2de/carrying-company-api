@@ -16,6 +16,8 @@ export class PrismaDelivererMapper {
       password: raw.password,
       phone: raw.phoneNumber,
       role: UserRole.DELIVERER,
+      createdAt: raw.createdAt ?? new Date(),
+      updatedAt: raw.updatedAt ?? new Date(),
     }
 
     return user
@@ -29,6 +31,8 @@ export class PrismaDelivererMapper {
         email: raw.email,
         password: raw.password,
         phoneNumber: raw.phone,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       new UniqueEntityId(raw.id),
     )

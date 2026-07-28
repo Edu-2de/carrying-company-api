@@ -1,10 +1,12 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import type { OrderRepository } from '@/domain/delivery/application/repositories/order-repository'
-import type { Order } from '@/domain/delivery/enterprise/entities/order'
-import type { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
+import { OrderRepository } from '@/domain/delivery/application/repositories/order-repository'
+import { Order } from '@/domain/delivery/enterprise/entities/order'
+import { Coordinate } from '@/domain/delivery/enterprise/entities/value-objects/coordinate'
+import { Injectable } from '@nestjs/common'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
-import type { PrismaService } from '../prisma.service'
+import { PrismaService } from '../prisma.service'
 
+@Injectable()
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private prisma: PrismaService) {}
 
@@ -22,7 +24,7 @@ export class PrismaOrderRepository implements OrderRepository {
       },
     })
     if (!order) return null
-    return order
+    return PrismaOrderMapper.toDomain(order)
   }
 
   async fetchByDeliverer(
@@ -36,14 +38,14 @@ export class PrismaOrderRepository implements OrderRepository {
       take: 5,
       skip: (page - 1) * 5,
     })
-    return orders
+    return orders.map(PrismaOrderMapper.toDomain)
   }
 
   async save(order: Order): Promise<void> {
     const data = PrismaOrderMapper.toPrisma(order)
     await this.prisma.order.update({
       where: {
-        id: data.id,
+        id: order.id.toString(),
       },
       data,
     })

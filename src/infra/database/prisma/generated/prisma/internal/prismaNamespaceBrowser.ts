@@ -80,7 +80,9 @@ export const UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   phone: 'phone',
-  role: 'role'
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -92,7 +94,9 @@ export const RecipientScalarFieldEnum = {
   cpf: 'cpf',
   phone: 'phone',
   latitude: 'latitude',
-  longitude: 'longitude'
+  longitude: 'longitude',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RecipientScalarFieldEnum = (typeof RecipientScalarFieldEnum)[keyof typeof RecipientScalarFieldEnum]

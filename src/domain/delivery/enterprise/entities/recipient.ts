@@ -9,7 +9,7 @@ export interface RecipientProps {
   phoneNumber: string
   location: Coordinate
   createdAt?: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Recipient extends Entity<RecipientProps> {
