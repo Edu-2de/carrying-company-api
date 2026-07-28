@@ -1,5 +1,6 @@
 /node_modules
-
 /src/generated/prisma
-
 .env
+*.pem
+private_base64.txt
+public_base64.txt

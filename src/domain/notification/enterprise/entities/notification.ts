@@ -5,6 +5,7 @@ export interface NotificationProps {
   title: string
   content: string
   recipientId: UniqueEntityId
+  createdAt?: Date
 }
 
 export class Notification extends AggregateRoot<NotificationProps> {
@@ -20,10 +21,15 @@ export class Notification extends AggregateRoot<NotificationProps> {
     return this.props.recipientId
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
   static create(props: NotificationProps, id?: UniqueEntityId) {
     const notification = new Notification(
       {
         ...props,
+        createdAt: new Date(),
       },
       id,
     )
