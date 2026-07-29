@@ -1,5 +1,7 @@
+import { makeDeliverer } from '@/test/factories/make-deliverer'
 import { makeOrder } from '@/test/factories/make-order'
 import { makeRecipient } from '@/test/factories/make-recipient'
+import { InMemoryDelivererRepository } from '@/test/repositories/in-memory-deliverer-repository'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 import { Coordinate } from '@domain/delivery/enterprise/entities/value-objects/coordinate'
@@ -8,18 +10,23 @@ import { FetchNearOrdersUseCase } from './fetch-near-orders'
 
 let orderRepository: InMemoryOrderRepository
 let recipientRepository: InMemoryRecipientRepository
+let delivererRepository: InMemoryDelivererRepository
 let sut: FetchNearOrdersUseCase
 
 describe('Fetch Near Orders Use Case', () => {
   beforeEach(async () => {
     orderRepository = new InMemoryOrderRepository()
     recipientRepository = new InMemoryRecipientRepository()
-    sut = new FetchNearOrdersUseCase(orderRepository)
+    delivererRepository = new InMemoryDelivererRepository()
+    sut = new FetchNearOrdersUseCase(orderRepository, delivererRepository)
   })
 
   it('should be able to fetch orders that are nearby', async () => {
     const recipient = makeRecipient()
     recipientRepository.create(recipient)
+
+    const deliverer = makeDeliverer()
+    delivererRepository.create(deliverer)
 
     const order1 = makeOrder({
       recipientId: recipient.id,
@@ -36,6 +43,7 @@ describe('Fetch Near Orders Use Case', () => {
     const result = await sut.execute({
       latitude: -10.8302,
       longitude: -42.7308,
+      delivererId: deliverer.id.toString(),
     })
 
     expect(result.isRight()).toBe(true)
