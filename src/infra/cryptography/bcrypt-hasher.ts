@@ -1,5 +1,5 @@
-import type { HashCompare } from '@/domain/delivery/application/cryptography/hash-compare'
-import type { HashGenerator } from '@/domain/delivery/application/cryptography/hash-generator'
+import { HashCompare } from '@/domain/delivery/application/cryptography/hash-compare'
+import { HashGenerator } from '@/domain/delivery/application/cryptography/hash-generator'
 import { Injectable } from '@nestjs/common'
 import bcrypt from 'bcryptjs'
 

@@ -4,7 +4,10 @@ import {
   type DelivererProps,
 } from '@/domain/delivery/enterprise/entities/deliverer'
 import { Cpf } from '@/domain/delivery/enterprise/entities/value-objects/cpf'
+import { PrismaDelivererMapper } from '@/infra/database/prisma/mappers/prisma-deliverer-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 export function makeDeliverer(
   override: Partial<DelivererProps> = {},
@@ -23,4 +26,21 @@ export function makeDeliverer(
   )
 
   return deliverer
+}
+
+@Injectable()
+export class DelivererFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaDeliverer(
+    data: Partial<DelivererProps> = {},
+  ): Promise<Deliverer> {
+    const deliverer = makeDeliverer(data)
+
+    await this.prisma.user.create({
+      data: PrismaDelivererMapper.toPrisma(deliverer),
+    })
+
+    return deliverer
+  }
 }

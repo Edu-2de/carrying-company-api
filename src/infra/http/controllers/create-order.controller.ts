@@ -1,5 +1,6 @@
 import { CreateOrderUseCase } from '@/domain/delivery/application/use-cases/create-order'
 import { RecipientDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/recipient-does-not-exists-error'
+import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
   Body,
@@ -20,6 +21,7 @@ const createOrderSchema = z.object({
 
 type CreateOrderBodySchema = z.infer<typeof createOrderSchema>
 
+@Public()
 @Controller('/orders')
 export class CreateOrderController {
   constructor(private createOrder: CreateOrderUseCase) {}

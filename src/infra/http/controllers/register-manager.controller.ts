@@ -1,5 +1,6 @@
 import { CpfAlreadyExistsError } from '@/domain/delivery/application/use-cases/errors/cpf-already-exists-error'
 import { RegisterManagerUseCase } from '@/domain/delivery/application/use-cases/register-manager'
+import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
   Body,
@@ -20,6 +21,7 @@ const registerManagerSchema = z.object({
 
 type RegisterManagerBodySchema = z.infer<typeof registerManagerSchema>
 
+@Public()
 @Controller('/managers')
 export class RegisterManagerController {
   constructor(private registerManager: RegisterManagerUseCase) {}

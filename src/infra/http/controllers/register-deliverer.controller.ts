@@ -1,5 +1,6 @@
 import { CpfAlreadyExistsError } from '@/domain/delivery/application/use-cases/errors/cpf-already-exists-error'
 import { RegisterDelivererUseCase } from '@/domain/delivery/application/use-cases/register-deliverer'
+import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
   Body,
@@ -20,6 +21,7 @@ const registerDelivererSchema = z.object({
 
 type RegisterDelivererBodySchema = z.infer<typeof registerDelivererSchema>
 
+@Public()
 @Controller('/deliverers')
 export class RegisterDelivererController {
   constructor(private registerDeliverer: RegisterDelivererUseCase) {}
