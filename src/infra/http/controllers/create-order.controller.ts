@@ -1,6 +1,7 @@
 import { CreateOrderUseCase } from '@/domain/delivery/application/use-cases/create-order'
 import { RecipientDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/recipient-does-not-exists-error'
-import { Public } from '@/infra/auth/public'
+import { CurrentUser } from '@/infra/auth/current-user.decorator'
+import type { TokenPayload } from '@/infra/auth/jwt.strategy'
 import {
   BadRequestException,
   Body,
@@ -21,15 +22,19 @@ const createOrderSchema = z.object({
 
 type CreateOrderBodySchema = z.infer<typeof createOrderSchema>
 
-@Public()
 @Controller('/orders')
 export class CreateOrderController {
   constructor(private createOrder: CreateOrderUseCase) {}
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: CreateOrderBodySchema) {
+  async handle(
+    @Body() body: CreateOrderBodySchema,
+    @CurrentUser() user: TokenPayload,
+  ) {
     const { title, latitude, longitude, expectedDate, recipientId } = body
+
+    const managerId = user.sub
 
     const response = await this.createOrder.execute({
       title,
@@ -37,6 +42,7 @@ export class CreateOrderController {
       longitude,
       expectedDate,
       recipientId,
+      managerId,
     })
 
     if (response.isLeft()) {

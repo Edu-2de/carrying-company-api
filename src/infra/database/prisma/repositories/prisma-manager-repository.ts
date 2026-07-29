@@ -24,4 +24,14 @@ export class PrismaManagerRepository implements ManagerRepository {
     if (!manager) return null
     return PrismaManagerMapper.toDomain(manager)
   }
+
+  async findById(id: string): Promise<Manager | null> {
+    const manager = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+    if (!manager) return null
+    return PrismaManagerMapper.toDomain(manager)
+  }
 }
