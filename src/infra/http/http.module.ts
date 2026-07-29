@@ -4,6 +4,7 @@ import { PickUpOrderUseCase } from '@/domain/delivery/application/use-cases/pick
 import { RegisterDelivererUseCase } from '@/domain/delivery/application/use-cases/register-deliverer'
 import { RegisterManagerUseCase } from '@/domain/delivery/application/use-cases/register-manager'
 import { RegisterRecipientUseCase } from '@/domain/delivery/application/use-cases/register-recipient'
+import { ReturnOrderUseCase } from '@/domain/delivery/application/use-cases/return-order'
 import { Module } from '@nestjs/common'
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { DatabaseModule } from '../database/database.module'
@@ -13,6 +14,7 @@ import { PickUpOrderController } from './controllers/pickup-order.controller'
 import { RegisterDelivererController } from './controllers/register-deliverer.controller'
 import { RegisterManagerController } from './controllers/register-manager.controller'
 import { RegisterRecipientController } from './controllers/register-recipient.controller'
+import { ReturnOrderController } from './controllers/return-order.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -23,6 +25,7 @@ import { RegisterRecipientController } from './controllers/register-recipient.co
     CreateOrderController,
     AuthenticateUserController,
     PickUpOrderController,
+    ReturnOrderController,
   ],
   providers: [
     RegisterRecipientUseCase,
@@ -31,6 +34,7 @@ import { RegisterRecipientController } from './controllers/register-recipient.co
     CreateOrderUseCase,
     AuthenticateUserUseCase,
     PickUpOrderUseCase,
+    ReturnOrderUseCase,
   ],
 })
 export class HttpModule {}
