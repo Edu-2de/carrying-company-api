@@ -1,6 +1,7 @@
 import { AuthenticateUserUseCase } from '@/domain/delivery/application/use-cases/authenticate'
 import { CreateOrderUseCase } from '@/domain/delivery/application/use-cases/create-order'
 import { DeliverOrderUseCase } from '@/domain/delivery/application/use-cases/deliver-order'
+import { FetchDelivererOrdersUseCase } from '@/domain/delivery/application/use-cases/fetch-deliverer-orders'
 import { FetchNearOrdersUseCase } from '@/domain/delivery/application/use-cases/fetch-near-orders'
 import { PickUpOrderUseCase } from '@/domain/delivery/application/use-cases/pick-up-order'
 import { RegisterDelivererUseCase } from '@/domain/delivery/application/use-cases/register-deliverer'
@@ -13,6 +14,7 @@ import { DatabaseModule } from '../database/database.module'
 import { AuthenticateUserController } from './controllers/authenticate.controller'
 import { CreateOrderController } from './controllers/create-order.controller'
 import { DeliverOrderController } from './controllers/deliver-order.controller'
+import { FetchDelivererOrdersController } from './controllers/fetch-deliverer-orders.controller'
 import { FetchNearOrdersController } from './controllers/fetch-near-orders.controller'
 import { PickUpOrderController } from './controllers/pickup-order.controller'
 import { RegisterDelivererController } from './controllers/register-deliverer.controller'
@@ -32,6 +34,7 @@ import { ReturnOrderController } from './controllers/return-order.controller'
     ReturnOrderController,
     FetchNearOrdersController,
     DeliverOrderController,
+    FetchDelivererOrdersController,
   ],
   providers: [
     RegisterRecipientUseCase,
@@ -43,6 +46,7 @@ import { ReturnOrderController } from './controllers/return-order.controller'
     ReturnOrderUseCase,
     FetchNearOrdersUseCase,
     DeliverOrderUseCase,
+    FetchDelivererOrdersUseCase,
   ],
 })
 export class HttpModule {}
