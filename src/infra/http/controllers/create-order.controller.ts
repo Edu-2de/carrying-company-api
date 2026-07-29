@@ -1,4 +1,5 @@
 import { CreateOrderUseCase } from '@/domain/delivery/application/use-cases/create-order'
+import { ManagerDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/manager-does-not-exists-error'
 import { RecipientDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/recipient-does-not-exists-error'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import type { TokenPayload } from '@/infra/auth/jwt.strategy'
@@ -33,7 +34,6 @@ export class CreateOrderController {
     @CurrentUser() user: TokenPayload,
   ) {
     const { title, latitude, longitude, expectedDate, recipientId } = body
-
     const managerId = user.sub
 
     const response = await this.createOrder.execute({
@@ -49,6 +49,8 @@ export class CreateOrderController {
       const error = response.value
       switch (error.constructor) {
         case RecipientDoesNotExistsError:
+          throw new ConflictException(error.message)
+        case ManagerDoesNotExistsError:
           throw new ConflictException(error.message)
         default:
           throw new BadRequestException(error.message)

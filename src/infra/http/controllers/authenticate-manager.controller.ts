@@ -1,5 +1,5 @@
-import { AuthenticateDelivererUseCase } from '@/domain/delivery/application/use-cases/authenticate-deliverer'
-import { DelivererDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/deliverer-does-not-exists-error'
+import { AuthenticateManagerUseCase } from '@/domain/delivery/application/use-cases/authenticate-manager'
+import { ManagerDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/manager-does-not-exists-error'
 import { NotAllowedError } from '@/domain/delivery/application/use-cases/errors/not-allowed-error'
 import { Public } from '@/infra/auth/public'
 import {
@@ -12,25 +12,24 @@ import {
 } from '@nestjs/common'
 import z from 'zod'
 
-const authenticateDelivererSchema = z.object({
+const authenticateManagerSchema = z.object({
   cpf: z.string(),
   password: z.string(),
 })
 
-type AuthenticateDelivererBodySchema = z.infer<
-  typeof authenticateDelivererSchema
->
+type AuthenticateManagerBodySchema = z.infer<typeof authenticateManagerSchema>
+
 @Public()
-@Controller('/deliverers/sessions')
-export class AuthenticateDelivererController {
-  constructor(private authenticateDeliverer: AuthenticateDelivererUseCase) {}
+@Controller('/managers/sessions')
+export class AuthenticateManagerController {
+  constructor(private authenticateManager: AuthenticateManagerUseCase) {}
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: AuthenticateDelivererBodySchema) {
+  async handle(@Body() body: AuthenticateManagerBodySchema) {
     const { cpf, password } = body
 
-    const response = await this.authenticateDeliverer.execute({
+    const response = await this.authenticateManager.execute({
       cpf,
       password,
     })
@@ -38,7 +37,7 @@ export class AuthenticateDelivererController {
     if (response.isLeft()) {
       const error = response.value
       switch (error.constructor) {
-        case DelivererDoesNotExistsError:
+        case ManagerDoesNotExistsError:
           throw new ConflictException(error.message)
         case NotAllowedError:
           throw new ConflictException(error.message)
@@ -46,7 +45,6 @@ export class AuthenticateDelivererController {
           throw new BadRequestException(error.message)
       }
     }
-
     const { token } = response.value
     return token
   }

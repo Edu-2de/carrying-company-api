@@ -4,7 +4,10 @@ import {
   type ManagerProps,
 } from '@/domain/delivery/enterprise/entities/manager'
 import { Cpf } from '@/domain/delivery/enterprise/entities/value-objects/cpf'
+import { PrismaManagerMapper } from '@/infra/database/prisma/mappers/prisma-manager-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 export function makeManager(
   override: Partial<ManagerProps> = {},
@@ -22,4 +25,17 @@ export function makeManager(
     id,
   )
   return manager
+}
+
+@Injectable()
+export class ManagerFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaManager(data: Partial<ManagerProps> = {}): Promise<Manager> {
+    const manager = makeManager(data)
+    await this.prisma.user.create({
+      data: PrismaManagerMapper.toPrisma(manager),
+    })
+    return manager
+  }
 }
