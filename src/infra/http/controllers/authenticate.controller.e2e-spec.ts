@@ -27,21 +27,19 @@ describe('Authenticate Deliverer (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /deliverers/sessions', async () => {
+  test('[POST] /sessions', async () => {
     const hashedPassword = await hasher.hash('password123456')
 
-    const deliverer = await delivererFactory.makePrismaDeliverer({
+    const user = await delivererFactory.makePrismaDeliverer({
       name: 'John Doe',
       email: 'johnDoe@email.com',
       password: hashedPassword,
     })
 
-    const response = await request(app.getHttpServer())
-      .post('/deliverers/sessions')
-      .send({
-        cpf: deliverer.cpf.value,
-        password: 'password123456',
-      })
+    const response = await request(app.getHttpServer()).post('/sessions').send({
+      cpf: user.cpf.value,
+      password: 'password123456',
+    })
 
     expect(response.statusCode).toBe(201)
   })

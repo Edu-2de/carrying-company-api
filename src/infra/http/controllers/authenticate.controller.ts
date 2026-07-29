@@ -1,6 +1,6 @@
-import { AuthenticateDelivererUseCase } from '@/domain/delivery/application/use-cases/authenticate-deliverer'
-import { DelivererDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/deliverer-does-not-exists-error'
+import { AuthenticateUserUseCase } from '@/domain/delivery/application/use-cases/authenticate'
 import { NotAllowedError } from '@/domain/delivery/application/use-cases/errors/not-allowed-error'
+import { UserDoesNotExistsError } from '@/domain/delivery/application/use-cases/errors/user-does-not-exists-error'
 import { Public } from '@/infra/auth/public'
 import {
   BadRequestException,
@@ -12,25 +12,23 @@ import {
 } from '@nestjs/common'
 import z from 'zod'
 
-const authenticateDelivererSchema = z.object({
+const authenticateUserSchema = z.object({
   cpf: z.string(),
   password: z.string(),
 })
 
-type AuthenticateDelivererBodySchema = z.infer<
-  typeof authenticateDelivererSchema
->
+type AuthenticateUserBodySchema = z.infer<typeof authenticateUserSchema>
 @Public()
-@Controller('/deliverers/sessions')
-export class AuthenticateDelivererController {
-  constructor(private authenticateDeliverer: AuthenticateDelivererUseCase) {}
+@Controller('/sessions')
+export class AuthenticateUserController {
+  constructor(private authenticateUser: AuthenticateUserUseCase) {}
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: AuthenticateDelivererBodySchema) {
+  async handle(@Body() body: AuthenticateUserBodySchema) {
     const { cpf, password } = body
 
-    const response = await this.authenticateDeliverer.execute({
+    const response = await this.authenticateUser.execute({
       cpf,
       password,
     })
@@ -38,7 +36,7 @@ export class AuthenticateDelivererController {
     if (response.isLeft()) {
       const error = response.value
       switch (error.constructor) {
-        case DelivererDoesNotExistsError:
+        case UserDoesNotExistsError:
           throw new ConflictException(error.message)
         case NotAllowedError:
           throw new ConflictException(error.message)
