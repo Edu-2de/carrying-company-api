@@ -4,21 +4,24 @@ import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import type { TokenPayload } from '@/infra/auth/jwt.strategy'
 import {
   BadRequestException,
-  Body,
   ConflictException,
   Controller,
   Get,
   HttpCode,
+  Query,
 } from '@nestjs/common'
 import z from 'zod'
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 import { OrderPresenter } from '../presenters/order-presenter'
 
-const fetchNearOrderSchema = z.object({
-  latitude: z.number(),
-  longitude: z.number(),
+const fetchNearOrderQuerySchema = z.object({
+  latitude: z.coerce.number(),
+  longitude: z.coerce.number(),
+  page: z.coerce.number().optional().default(1),
 })
 
-type FetchNearOrderBodySchema = z.infer<typeof fetchNearOrderSchema>
+type FetchNearOrderQuerySchema = z.infer<typeof fetchNearOrderQuerySchema>
+const queryValidationPipe = new ZodValidationPipe(fetchNearOrderQuerySchema)
 
 @Controller('/orders/near')
 export class FetchNearOrdersController {
@@ -27,16 +30,17 @@ export class FetchNearOrdersController {
   @Get()
   @HttpCode(200)
   async handle(
-    @Body() body: FetchNearOrderBodySchema,
+    @Query(queryValidationPipe) query: FetchNearOrderQuerySchema,
     @CurrentUser() user: TokenPayload,
   ) {
-    const { latitude, longitude } = body
+    const { latitude, longitude, page } = query
     const delivererId = user.sub
 
     const response = await this.fetchNearOrders.execute({
       latitude,
       longitude,
       delivererId,
+      page,
     })
 
     if (response.isLeft()) {
