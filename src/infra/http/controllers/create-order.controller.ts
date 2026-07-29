@@ -12,16 +12,18 @@ import {
   Post,
 } from '@nestjs/common'
 import z from 'zod'
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const createOrderSchema = z.object({
   title: z.string(),
   latitude: z.number(),
   longitude: z.number(),
-  expectedDate: z.date(),
-  recipientId: z.string(),
+  expectedDate: z.coerce.date(),
+  recipientId: z.uuid(),
 })
 
 type CreateOrderBodySchema = z.infer<typeof createOrderSchema>
+const bodyValidationPipe = new ZodValidationPipe(createOrderSchema)
 
 @Controller('/orders')
 export class CreateOrderController {
@@ -30,7 +32,7 @@ export class CreateOrderController {
   @Post()
   @HttpCode(201)
   async handle(
-    @Body() body: CreateOrderBodySchema,
+    @Body(bodyValidationPipe) body: CreateOrderBodySchema,
     @CurrentUser() user: TokenPayload,
   ) {
     const { title, latitude, longitude, expectedDate, recipientId } = body

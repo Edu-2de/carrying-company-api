@@ -11,6 +11,7 @@ import {
   Post,
 } from '@nestjs/common'
 import z from 'zod'
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const authenticateUserSchema = z.object({
   cpf: z.string(),
@@ -18,6 +19,8 @@ const authenticateUserSchema = z.object({
 })
 
 type AuthenticateUserBodySchema = z.infer<typeof authenticateUserSchema>
+const bodyValidationPipe = new ZodValidationPipe(authenticateUserSchema)
+
 @Public()
 @Controller('/sessions')
 export class AuthenticateUserController {
@@ -25,7 +28,7 @@ export class AuthenticateUserController {
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: AuthenticateUserBodySchema) {
+  async handle(@Body(bodyValidationPipe) body: AuthenticateUserBodySchema) {
     const { cpf, password } = body
 
     const response = await this.authenticateUser.execute({

@@ -10,6 +10,7 @@ import {
   Post,
 } from '@nestjs/common'
 import z from 'zod'
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const registerDelivererSchema = z.object({
   name: z.string().min(1),
@@ -20,6 +21,7 @@ const registerDelivererSchema = z.object({
 })
 
 type RegisterDelivererBodySchema = z.infer<typeof registerDelivererSchema>
+const bodyValidationPipe = new ZodValidationPipe(registerDelivererSchema)
 
 @Public()
 @Controller('/deliverers')
@@ -28,7 +30,7 @@ export class RegisterDelivererController {
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: RegisterDelivererBodySchema) {
+  async handle(@Body(bodyValidationPipe) body: RegisterDelivererBodySchema) {
     const { name, cpf, email, password, phoneNumber } = body
 
     const result = await this.registerDeliverer.execute({
